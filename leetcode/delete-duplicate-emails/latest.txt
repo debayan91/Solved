@@ -1,0 +1,6 @@
+-- Write your PostgreSQL query statement below
+delete from person a
+using person b
+where a.email = b.email
+and
+a.id > b.id;
