@@ -1,0 +1,24 @@
+import re
+import pandas as pd
+
+def convert(text):
+    def fix_word(match):
+        word = match.group(0)
+
+        # Exactly one hyphen connecting two alphabetic words
+        if re.fullmatch(r"[A-Za-z]+-[A-Za-z]+", word):
+            left, right = word.split("-")
+            return left.capitalize() + "-" + right.capitalize()
+
+        # Otherwise, capitalize only the first letter of the token
+        return word[:1].upper() + word[1:].lower()
+
+    return re.sub(r"\S+", fix_word, text)
+
+
+def capitalize_content(user_content: pd.DataFrame) -> pd.DataFrame:
+    return pd.DataFrame({
+        "content_id": user_content["content_id"],
+        "original_text": user_content["content_text"],
+        "converted_text": user_content["content_text"].apply(convert)
+    })
