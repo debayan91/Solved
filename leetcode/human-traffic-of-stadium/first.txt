@@ -1,0 +1,14 @@
+import pandas as pd
+
+
+def human_traffic(stadium: pd.DataFrame) -> pd.DataFrame:
+    df = stadium[stadium["people"] >= 100].copy()
+
+    df["grp"] = df["id"] - np.arange(len(df))
+
+    return (
+        df.groupby("grp")
+          .filter(lambda x: len(x) >= 3)
+          .sort_values("visit_date")
+          .drop(columns="grp")
+    )
