@@ -1,0 +1,9 @@
+select
+case
+    when id % 2 = 1 and id + 1 in (select id from seat) then id + 1 -- odd index -> go to next index that exists
+    when id % 2 = 0 then id - 1 -- even index -> go one step back and evens start at 2
+    else id
+end 
+as id, student
+from seat
+order by id;
