@@ -1,0 +1,14 @@
+select round(sum(a.tiv_2016), 2) as tiv_2016
+from insurance a
+where tiv_2015 in (
+    select b.tiv_2015
+    from insurance b
+    where 
+    a.pid != b.pid
+)
+and (lat, lon) not in (
+    select c.lat, c.lon
+    from insurance c
+    where
+    a.pid != c.pid
+)
