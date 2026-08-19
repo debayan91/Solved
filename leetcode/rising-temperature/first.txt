@@ -1,0 +1,11 @@
+select a.id 
+from weather a
+where date_sub(a.recordDate, interval 1 day) in 
+(
+    select recordDate from weather
+) and 
+a.temperature > (
+    select b.temperature 
+    from weather b
+    where recordDate = date_sub(a.recordDate, interval 1 day)
+)
